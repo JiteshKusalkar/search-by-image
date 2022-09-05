@@ -2,11 +2,17 @@ env:
   browser: true
   es6: true
   node: true
-extends: '@ridedott/eslint-config'
+extends:
+  - eslint:recommended
+  - plugin:react/recommended
+  - '@ridedott/eslint-config'
 overrides:
   - files: ./src/**/*spec.ts
     rules:
       '@typescript-eslint/no-magic-numbers': 'off'
+  - files: '*.tsx'
+    rules:
+      '@typescript-eslint/explicit-function-return-type': 'off'
 parserOptions:
   ecmaVersion: 10
   project: tsconfig.json
