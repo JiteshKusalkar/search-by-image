@@ -1,7 +1,12 @@
 import * as React from 'react';
 
-import { SayHello } from './components/my-component';
+import { AppProviders } from './components/app-providers';
+import { Dashboard } from './features/dashboard';
 
 export const App: React.FC = () => {
-  return <SayHello name="Jitesh" />;
+  return (
+    <AppProviders>
+      <Dashboard />
+    </AppProviders>
+  );
 };

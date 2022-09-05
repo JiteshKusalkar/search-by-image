@@ -1,6 +1,7 @@
 const { join } = require('path');
 
 const autoPrefixer = require('autoprefixer');
+const tailwindCSS = require('tailwindcss');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
@@ -52,7 +53,7 @@ const configuration = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [autoPrefixer()],
+              plugins: () => [tailwindCSS(), autoPrefixer()],
               sourceMap: true,
             },
           },

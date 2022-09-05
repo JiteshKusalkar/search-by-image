@@ -17,6 +17,9 @@ parserOptions:
   ecmaVersion: 10
   project: tsconfig.json
   sourceType: module
+settings:
+  react:
+    version: detect
 rules:
   immutable/no-mutation: 'off'
   immutable/no-this: 'off'
