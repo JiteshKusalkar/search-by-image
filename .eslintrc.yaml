@@ -27,5 +27,10 @@ rules:
     - error
     - case: kebabCase
   unicorn/prevent-abbreviations:
-  - error
-  - extendDefaultReplacements: false
+    - error
+    - extendDefaultReplacements: false
+  strict-boolean-expressions: 'off'
+  eslint-comments/no-use:
+    - 'error'
+    - allow:
+      - eslint-disable-next-line

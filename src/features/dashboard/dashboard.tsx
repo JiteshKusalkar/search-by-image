@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-import { ImageSearchLayout } from './components/image-search-layout';
+import {
+  ImageInformation,
+  ImageSearchLayout,
+} from './components/image-search-layout';
 
 export const Dashboard: React.FC = () => {
   return (
@@ -12,8 +15,11 @@ export const Dashboard: React.FC = () => {
         Search a dog breed by uploading an image
       </h2>
       <ImageSearchLayout>
-        {(): JSX.Element => (
-          <div>This is where the results will be rendered</div>
+        {(imageInformation: ImageInformation | null): JSX.Element => (
+          <div>
+            This is where the results will be rendered:{' '}
+            {imageInformation?.[0]?.className}
+          </div>
         )}
       </ImageSearchLayout>
       {/* Result with infinite scroll */}

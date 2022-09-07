@@ -32,7 +32,7 @@ const configuration = {
         test: /\.html$/u,
       },
       {
-        test: /\.tsx$/u,
+        test: /\.(ts|tsx)$/u,
         use: [
           {
             loader: 'ts-loader',
