@@ -1,7 +1,10 @@
 import * as React from 'react';
+import { ListChildComponentProps } from 'react-window';
 
+import { LazyLoader } from '../../../components/lazy-loader';
 import { Prediction } from '../hooks/use-image-information-extractor';
 import useSearchByBreed from '../hooks/use-search-by-breed';
+import { ImageTile } from './image-tile';
 
 export interface SearchResultsProps {
   predictions: Array<Prediction | undefined>;
@@ -20,12 +23,16 @@ export const SearchResults = ({
     }
 
     if (isError) {
-      return <div>Error in fetching the breed. Please adjust your search!</div>;
+      return (
+        <div className="text-red-500">
+          Error in fetching the breed. Please adjust your search!
+        </div>
+      );
     }
 
     if (data === undefined || data === null || data.message.length === 0) {
       return (
-        <div className="flex flex-wrap -m-1 md:-m-2">
+        <div className="flex flex-wrap">
           <p className="md:text-xl">Nothing to display</p>
         </div>
       );
@@ -34,18 +41,20 @@ export const SearchResults = ({
     return (
       <>
         <h3 className="m-5 md:text-3xl">Matching results</h3>
-        <div className="flex flex-wrap -m-1 md:-m-2">
-          {data.message.map((image: string) => (
-            <div key={image} className="flex flex-wrap w-full md:w-1/3">
-              <div className="w-full p-1 md:p-2">
-                <img
-                  alt="gallery"
-                  className="block object-cover object-center w-full h-full rounded-lg"
-                  src={image}
-                />
-              </div>
-            </div>
-          ))}
+        <div className="h-screen">
+          <LazyLoader
+            listWrapperProps={{
+              itemCount: data.message.length,
+              itemSize: 200,
+              width: window.innerWidth,
+            }}
+          >
+            {({ index, style }: ListChildComponentProps) => {
+              const image = data.message[index];
+
+              return <ImageTile image={image} style={style} />;
+            }}
+          </LazyLoader>
         </div>
       </>
     );
@@ -53,9 +62,7 @@ export const SearchResults = ({
 
   return (
     <section className="flex flex-col items-center justify-center flex-1 overflow-hidden text-gray-700 ">
-      <div className="container text-center px-5 py-2 mx-auto lg:pt-12 lg:px-32">
-        {renderSection()}
-      </div>
+      <div className="container text-center mx-auto">{renderSection()}</div>
     </section>
   );
 };
