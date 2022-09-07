@@ -5,7 +5,7 @@ type Ref = React.LegacyRef<HTMLInputElement>;
 
 const FileUploadBase = (props?: FileUploadProps, ref?: Ref): JSX.Element => {
   return (
-    <div className="flex w-full" onDrop={props?.onDrop}>
+    <div className="flex w-full">
       <label
         htmlFor="file-upload"
         className="flex flex-col justify-center items-center w-full p-4 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer"
@@ -27,8 +27,7 @@ const FileUploadBase = (props?: FileUploadProps, ref?: Ref): JSX.Element => {
             ></path>
           </svg>
           <p className="mb-2 text-sm text-gray-500">
-            <span className="font-semibold">Click to upload</span> or drag and
-            drop
+            <span className="font-semibold">Click to upload</span>
           </p>
         </div>
         <input
