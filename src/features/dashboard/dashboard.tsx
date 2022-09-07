@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import {
-  ImageInformation,
-  ImageSearchLayout,
-} from './components/image-search-layout';
+import { ImagePreview } from './components/image-preview';
+import { ImageSearchLayout } from './components/image-search-layout';
+import { SearchResults } from './components/search-results';
+import { Prediction } from './hooks/use-image-information-extractor';
 
 export const Dashboard: React.FC = () => {
   return (
@@ -15,14 +15,22 @@ export const Dashboard: React.FC = () => {
         Search a dog breed by uploading an image
       </h2>
       <ImageSearchLayout>
-        {(imageInformation: ImageInformation | null): JSX.Element => (
-          <div>
-            This is where the results will be rendered:{' '}
-            {imageInformation?.[0]?.className}
+        {(
+          predictions: Prediction[] | null,
+          previewSrc: string | null,
+        ): JSX.Element | null => (
+          <div className="flex flex-col items-center justify-center flex-1 w-full mt-4 md:mt-9">
+            {previewSrc !== null && previewSrc !== '' ? (
+              <ImagePreview
+                predictions={predictions ?? []}
+                src={previewSrc}
+                id="image-preview"
+              />
+            ) : null}
+            <SearchResults predictions={predictions ?? []} />
           </div>
         )}
       </ImageSearchLayout>
-      {/* Result with infinite scroll */}
     </div>
   );
 };

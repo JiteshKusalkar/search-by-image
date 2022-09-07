@@ -7,35 +7,33 @@ import {
 } from '../hooks/use-image-information-extractor';
 import { readImage } from '../utils/read-image';
 
-export type ImageInformation = Prediction[];
-
 interface ImageSearchLayoutProps {
-  children: (imageInformation: ImageInformation | null) => JSX.Element;
+  children: (
+    imageInformation: Prediction[] | null,
+    previewSrc: string | null,
+  ) => JSX.Element | null;
 }
 
 export const ImageSearchLayout = ({
   children,
 }: ImageSearchLayoutProps): JSX.Element => {
-  const [
-    imageInformation,
-    setImageInformation,
-  ] = React.useState<ImageInformation | null>(null);
+  const [predictions, setPredictions] = React.useState<Prediction[] | null>(
+    null,
+  );
   const [fileError, setFileError] = React.useState<string | null>(null);
-  const [previewSrc, setPreviewSrc] = React.useState<
-    string | ArrayBuffer | null
-  >(null);
+  const [previewSrc, setPreviewSrc] = React.useState<string | null>(null);
 
   const { getPredictions } = useImageInformationExtractor();
 
   const fetchPredictions = async () => {
     const img: HTMLImageElement | null = document.querySelector(
-      '.image-preview',
+      '#image-preview',
     );
 
     if (img !== null) {
       const information = await getPredictions(img);
 
-      setImageInformation(information);
+      setPredictions(information);
     }
   };
 
@@ -48,7 +46,7 @@ export const ImageSearchLayout = ({
       if (file.item(0)?.type.includes('image') ?? false) {
         setFileError(null);
         const preview = await readImage(file.item(0));
-        setPreviewSrc(preview);
+        setPreviewSrc(preview as string);
       } else {
         setFileError('Please upload an image file: PNG, JPG, JPEG');
       }
@@ -62,19 +60,14 @@ export const ImageSearchLayout = ({
   }, [previewSrc]);
 
   return (
-    <div className="w-full md:max-w-5xl flex flex-col items-center">
+    <div className="w-full md:max-w-5xl flex flex-col items-center flex-1">
       <FileUpload accept="image/*" onChange={handleChange} />
-      {previewSrc === null ? null : (
-        <img
-          className="image-preview"
-          src={previewSrc as string}
-          alt="Dog image preview"
-        />
-      )}
       {fileError !== null && fileError !== '' ? (
         <span className="text-sm text-red-500">{fileError}</span>
       ) : null}
-      {typeof children === 'function' ? children(imageInformation) : children}
+      {typeof children === 'function'
+        ? children(predictions, previewSrc)
+        : children}
     </div>
   );
 };
