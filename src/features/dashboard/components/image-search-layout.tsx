@@ -5,18 +5,12 @@ import {
   Prediction,
   useImageInformationExtractor,
 } from '../hooks/use-image-information-extractor';
+import { isImage } from '../utils/is-image';
 import { readImage } from '../utils/read-image';
+import { ImagePreview } from './image-preview';
+import { SearchResults } from './search-results';
 
-interface ImageSearchLayoutProps {
-  children: (
-    imageInformation: Prediction[] | null,
-    previewSrc: string | null,
-  ) => JSX.Element | null;
-}
-
-export const ImageSearchLayout = ({
-  children,
-}: ImageSearchLayoutProps): JSX.Element => {
+export const ImageSearchLayout = (): JSX.Element => {
   const [predictions, setPredictions] = React.useState<Prediction[] | null>(
     null,
   );
@@ -43,7 +37,7 @@ export const ImageSearchLayout = ({
     const file = event.currentTarget.files;
 
     if (file !== null) {
-      if (file.item(0)?.type.includes('image') ?? false) {
+      if (isImage(file)) {
         setFileError(null);
         const preview = await readImage(file.item(0));
         setPreviewSrc(preview as string);
@@ -65,9 +59,16 @@ export const ImageSearchLayout = ({
       {fileError !== null && fileError !== '' ? (
         <span className="text-sm text-red-500">{fileError}</span>
       ) : null}
-      {typeof children === 'function'
-        ? children(predictions, previewSrc)
-        : children}
+      <div className="flex flex-col items-center justify-center flex-1 w-full mt-4 md:mt-9">
+        {previewSrc !== null && previewSrc !== '' ? (
+          <ImagePreview
+            predictions={predictions ?? []}
+            src={previewSrc}
+            id="image-preview"
+          />
+        ) : null}
+        <SearchResults predictions={predictions ?? []} />
+      </div>
     </div>
   );
 };
