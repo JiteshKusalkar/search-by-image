@@ -1,6 +1,7 @@
-import { ErrorResponse } from '../types';
+import axios from 'axios';
 
-const baseURL = 'https://dog.ceo/api';
+import { BASE_URL } from '../base-url';
+import { ErrorResponse } from '../types';
 
 export interface DogResponse {
   message: string[];
@@ -10,15 +11,8 @@ export interface DogResponse {
 export const getByBreed = async <Data extends DogResponse | ErrorResponse>(
   breed: string,
 ): Promise<Data> => {
-  const url = `${baseURL}/breed/${breed}/images`;
+  const url = `${BASE_URL}/breed/${breed}/images`;
+  const response = await axios.get(url);
 
-  return fetch(url).then(
-    async (response: Response): Promise<Data> => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      return response.json();
-    },
-  );
+  return response.data;
 };

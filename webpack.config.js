@@ -1,10 +1,26 @@
 const { join } = require('path');
+const { existsSync } = require('fs');
+const { config } = require('dotenv');
 
 const autoPrefixer = require('autoprefixer');
 const tailwindCSS = require('tailwindcss');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+
+const getEnvironmentKeys = () => {
+  const currentPath = join(__dirname);
+  const basePath = currentPath + '/.env';
+  const envPath = basePath + '.' + process.env.NODE_ENV;
+  const finalPath = existsSync(envPath) ? envPath : basePath;
+  const fileEnv = config({ path: finalPath }).parsed;
+  const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
+    return prev;
+  }, {});
+
+  return envKeys;
+};
 
 const configuration = {
   cache: true,
@@ -93,9 +109,7 @@ const configuration = {
       minify: false,
       template: 'src/index.html',
     }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'),
-    }),
+    new webpack.DefinePlugin(getEnvironmentKeys()),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
