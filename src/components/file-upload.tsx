@@ -32,6 +32,7 @@ const FileUploadBase = (props?: FileUploadProps, ref?: Ref): JSX.Element => {
         </div>
         <input
           id="file-upload"
+          data-testid="file-upload"
           className="hidden"
           multiple={false}
           ref={ref}

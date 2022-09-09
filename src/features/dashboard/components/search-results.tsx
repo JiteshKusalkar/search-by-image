@@ -2,8 +2,8 @@ import * as React from 'react';
 import { ListChildComponentProps } from 'react-window';
 
 import { LazyLoader } from '../../../components/lazy-loader';
-import { Prediction } from '../hooks/use-image-information-extractor';
 import useSearchByBreed from '../hooks/use-search-by-breed';
+import { Prediction } from '../utils/image-predictor';
 import { ImageTile } from './image-tile';
 
 export interface SearchResultsProps {

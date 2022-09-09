@@ -32,7 +32,7 @@ class ErrorBoundary extends React.Component<Props, State> {
       return (
         <div>
           <h1 className="md:text-4xl lg:text-6xl">
-            Sorry.. there was an error
+            Sorry... there was an error
           </h1>
           <Button onClick={() => window.location.reload()}>Refresh Page</Button>
         </div>

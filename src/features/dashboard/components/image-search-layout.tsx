@@ -1,14 +1,13 @@
 import * as React from 'react';
 
 import { FileUpload } from '../../../components/file-upload';
-import {
-  Prediction,
-  useImageInformationExtractor,
-} from '../hooks/use-image-information-extractor';
+import { ImagePredictor, Prediction } from '../utils/image-predictor';
 import { isImage } from '../utils/is-image';
 import { readImage } from '../utils/read-image';
 import { ImagePreview } from './image-preview';
 import { SearchResults } from './search-results';
+
+const imagePredictor = new ImagePredictor();
 
 export const ImageSearchLayout = (): JSX.Element => {
   const [predictions, setPredictions] = React.useState<Prediction[] | null>(
@@ -17,15 +16,13 @@ export const ImageSearchLayout = (): JSX.Element => {
   const [fileError, setFileError] = React.useState<string | null>(null);
   const [previewSrc, setPreviewSrc] = React.useState<string | null>(null);
 
-  const { getPredictions } = useImageInformationExtractor();
-
   const fetchPredictions = async () => {
     const img: HTMLImageElement | null = document.querySelector(
       '#image-preview',
     );
 
     if (img !== null) {
-      const information = await getPredictions(img);
+      const information = await imagePredictor.getPredictions(img);
 
       setPredictions(information);
     }
@@ -34,12 +31,14 @@ export const ImageSearchLayout = (): JSX.Element => {
   const handleChange = async (
     event: React.SyntheticEvent<HTMLInputElement>,
   ) => {
-    const file = event.currentTarget.files;
+    const { files } = event.currentTarget;
 
-    if (file !== null) {
+    if (files !== null) {
+      const [file] = Array.from(files);
+
       if (isImage(file)) {
         setFileError(null);
-        const preview = await readImage(file.item(0));
+        const preview = await readImage(file);
         setPreviewSrc(preview as string);
       } else {
         setFileError('Please upload an image file: PNG, JPG, JPEG');
