@@ -13,6 +13,11 @@ expectations.
 Simply clone this project and get started. You can replace this readme with your
 own when you are finished.
 
+## Table of contents
+
+1. [Project setup](./docs/project-setup.md)
+1. [Project directory structure](./docs/project-structure.md)
+
 ## Available scripts
 
 To start the project, simply run:
