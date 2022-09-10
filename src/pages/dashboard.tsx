@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ImageSearchLayout } from './components/image-search-layout';
+import { ImageSearchLayout } from '../features/dashboard/components/image-search-layout';
 
 export const Dashboard: React.FC = () => {
   return (
