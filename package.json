@@ -11,7 +11,7 @@
   },
   "description": "Search for dogs",
   "devDependencies": {
-    "@ridedott/eslint-config": "^1.0.0",
+    "@ridedott/eslint-config": "^1.1.44",
     "@testing-library/dom": "^8.17.1",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
