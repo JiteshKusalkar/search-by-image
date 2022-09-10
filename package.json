@@ -90,6 +90,7 @@
     "lint:ts": "eslint --resolve-plugins-relative-to \"./node_modules/@ridedott/eslint-config\" \"**/*.{ts,tsx}\"",
     "lint:ts:fix": "eslint --fix --resolve-plugins-relative-to \"./node_modules/@ridedott/eslint-config\" \"**/*.{ts,tsx}\"",
     "start": "NODE_ENV=development webpack-dev-server --config ./webpack.config.js",
+    "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js",
     "test": "NODE_ENV=test jest",
     "types": "tsc --noEmit"
   },
