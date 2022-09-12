@@ -1,4 +1,4 @@
-const { join } = require('path');
+const { join, resolve } = require('path');
 const { existsSync } = require('fs');
 const { config } = require('dotenv');
 
@@ -23,21 +23,12 @@ const getEnvironmentKeys = () => {
 };
 
 const configuration = {
-  cache: true,
-  devServer: {
-    compress: false,
-    contentBase: join(__dirname, 'dist'),
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    overlay: true,
-    writeToDisk: false,
-  },
-  devtool: 'cheap-module-eval-source-map',
+  cache: false,
+  devtool: 'source-map',
   entry: {
     app: './src/index.tsx',
   },
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -91,7 +82,7 @@ const configuration = {
   },
   output: {
     filename: 'chunks/[name].js',
-    pathinfo: true,
+    path: resolve(__dirname, 'dist'),
     publicPath: '/',
   },
   performance: {
@@ -114,10 +105,6 @@ const configuration = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
     mainFields: ['browser', 'module', 'main'],
-  },
-  watch: true,
-  watchOptions: {
-    ignored: /node_modules/u,
   },
 };
 
