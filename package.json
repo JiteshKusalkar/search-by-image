@@ -22,7 +22,7 @@
     "@types/react-virtualized-auto-sizer": "^1.0.1",
     "@types/react-window": "^1.8.5",
     "@types/webpack-env": "^1.15.1",
-    "autoprefixer": "^9.8.8",
+    "autoprefixer": "^10.4.10",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.10",
